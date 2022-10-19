@@ -1,5 +1,7 @@
 # robotic-programming
 
+After updating!!! Yay
+
 Make Sure Docker (Mac Desktop App) is running (looks like a whale icon)
 
 THEN 
