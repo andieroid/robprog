@@ -28,7 +28,7 @@ class image_projection:
 
         self.bridge = CvBridge()
 
-        self.camera_info_sub = rospy.Subscriber('/thorvald_001/kinect2_front_camera/hd/camera_info', 
+        self.camera_info_sub = rospy.Subscriber('/thorvald_001/kinect2_left_camera/hd/camera_info', 
             CameraInfo, self.camera_info_callback)
 
         self.object_location_pub = rospy.Publisher('/thorvald_001/object_location', PoseStamped, queue_size=10)
