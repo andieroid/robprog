@@ -1,0 +1,8 @@
+<launch>
+  <node name="fruit_counter" pkg="fruit_counter" type="fruit_counter.py" output="screen"/>
+
+  <include file="$(find bacchus_gazebo)/launch/vineyard_demo.launch">
+  	<arg name="world_name" value="vineyard_stage4_small"/>
+  </include>
+
+</launch>
