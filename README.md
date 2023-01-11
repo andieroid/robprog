@@ -8,13 +8,14 @@ To successfully run the system, test it and see it working, ideally you need to 
 
 The environment calls on files found within the CMP9767M repository which you can set up most easily using the Docker Virtual Desktop and pulling the necessary files from the UoL archive.
 
-Install Docker using this resource: https://docs.docker.com/desktop/ and when running, follow the instructions on the resource here: https://github.com/LCAS/CMP9767M/wiki/using-the-module-resources-in-docker.  This will provide the correct environment with all the secondary associated CMP9767M files referenced by the simulation described on this page.  You still need to clone the robprog (this) repository to install the specific simulation files for this particular roboit grape counter.
+Install Docker using this resource: `https://docs.docker.com/desktop/` and when running, follow the instructions on the resource here: `https://github.com/LCAS/CMP9767M/wiki/using-the-module-resources-in-docker`.  This will provide the correct environment with all the secondary associated CMP9767M files referenced by the simulation described on this page.  You still need to clone the robprog (this) repository to install the specific simulation files for this particular roboit grape counter.
 
 Once robprog and CMP9767M directories are in place, if you are running a correctly-configured Docker image, then you can start the simulation as follows:
 
-Type http://localhost:6080/ in a web-browser and launch a terminal.  You will eventually need three separate terminal tabs to launch the necessary a) ROS vineyard "word" b) rviz visualiser/map and c) Python grape-counting components.  
+Type **http://localhost:6080/** in a web-browser and launch a terminal.  You will eventually need three separate terminal tabs to launch the necessary a) ROS vineyard "word" b) rviz visualiser/map and c) Python grape-counting components.  
 
-a) So, starting with the vineyard (without gazebo to improve performance), type into a shell tab (or copy/paste): roslaunch bacchus_gazebo vineyard_demo.launch world_name:=vineyard_small gui:=false 
+a) So, starting with the vineyard (without gazebo to improve performance), type into a shell tab (or copy/paste): `roslaunch bacchus_gazebo vineyard_demo.launch world_name:=vineyard_small gui:=false` 
+
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/launching-vineyard-world.png">
 
@@ -22,14 +23,14 @@ this will launch the word and an RVIZ environment that provides an interface bet
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/initial-rviz-launch.png">
 
-b) To start the required RVIZ configuration, *in a new tab* type: roslaunch uol_cmp9767m_tutorial topo_nav.launch.  Once this is running, you need to open the *modified* .rviz config file that contains a map; this is called topo_nav.rviz, found in /CMP9767M/uol_cmp9767m_tutorial/config/topo_nav.rviz.  
+b) To start the required RVIZ configuration, *in a new tab* type: `roslaunch uol_cmp9767m_tutorial topo_nav.launch`.  Once this is running, you need to open the *modified* .rviz config file that contains a map; this is called topo_nav.rviz, found in `/CMP9767M/uol_cmp9767m_tutorial/config/topo_nav.rviz`.  
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/selecting-the-modified-config-file.png">
 This modified config provides the robot with a map that allows it to navigate around the vine; this is what you should see now:
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/rviz-launched.png">
 
-c) Finally, the code that controls the grape counting process needs to be located and launched.  This python code is located within scripts.  From a new tab, type (or copy/paste) cd catkin_ws/src/robprog/grape_counter/scripts/. To run the grape-counter (depending on your set up) type either python or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs (see image below).  This confirms that the configuration is correct and that the grape counter is running.
+c) Finally, the code that controls the grape counting process needs to be located and launched.  This python code is located within scripts.  From a new tab, type (or copy/paste) cd `catkin_ws/src/robprog/grape_counter/scripts/`. To run the grape-counter (depending on your set up) type either python or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs (see image below).  This confirms that the configuration is correct and that the grape counter is running.
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/black-screen-with-white-blobs.png">
 
@@ -37,7 +38,7 @@ Return to the topo_nav RVIZ environment where you will see the robot on the grid
 
 The first step in grape counting is to position the robot at the nearest waypoint (shown as green arrows) around the grape vine.  If your robot happened to be at the top end of the image, you can click the nearest waypoint, however by default, the robot appears at the bottom of the screen, so click the waypoint as shown in the image below; the robot should move into position, ready to start counting.
 
-<img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/robot-at-start-position.png">
+[<img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/robot-at-start-position.png">](https://)
 
 The robot is programmed to follow the map layout, which has a one way system, so if you click the bottom right waypoint (the final destination - see image below) it should move up the left side of the vine, move across at the top and come back down the other side, counting the grapes as it goes. 
 
