@@ -12,69 +12,16 @@ Install Docker using this resource: https://docs.docker.com/desktop/ and when ru
 
 Once robprog and CMP9767M directories are in place, if you are running a correctly-configured Docker image, then you can start the simulation as follows:
 
-Type http://localhost:6080/ in a web- and launch a terminal.  You will need three separate tabs to launch the necessary a) ROS vineyard "word" b) rviz visualiser/map and c) Python grape-counting components.  
+Type http://localhost:6080/ in a web-browser and launch a terminal.  You will eventually need three separate terminal tabs to launch the necessary a) ROS vineyard "word" b) rviz visualiser/map and c) Python grape-counting components.  
 
-a) So, starting with the vineyard (without gazebo to improve performance), type into a shell tab (or copy/paste): roslaunch bacchus_gazebo vineyard_demo.launch world_name:=vineyard_small gui:=false
+a) So, starting with the vineyard (without gazebo to improve performance), type into a shell tab (or copy/paste): roslaunch bacchus_gazebo vineyard_demo.launch world_name:=vineyard_small gui:=false this will launch the word and an RVIZ environment that provides an interface between the ROS system and the simulated ROS environment.  You should see a 3D representation of the robot on a grid with a line of grapes (glowing red due to the lidar of the robot).
 
-b) To start the RVIZ component, that provides an interface between the ROS system and the simulated ROS environment, *in a new tab* type: roslaunch uol_cmp9767m_tutorial topo_nav.launch
-Once this is running (with a 3D representation of the robot on a grid with a line of grapes (glowing red due to the lidar of the robot), open the config file named topo_nav.rviz.  This modified config provides the robot with a map that allows it to navigate around the vine.
+b) To start the required RVIZ configuration, *in a new tab* type: roslaunch uol_cmp9767m_tutorial topo_nav.launch.  Once this is running, you need to open the *modified* .rviz config file that contains a map; this is called topo_nav.rviz, found in /CMP9767M/uol_cmp9767m_tutorial/config/topo_nav.rviz.  This modified config provides the robot with a map that allows it to navigate around the vine.
 
-c) Finally, the code that controls the grape counting element needs to be located and launched.  This python code is located within scripts.  From a new tab, type (or copy/paste) cd catkin_ws/src/robprog/grape_counter/scripts/. To run the grape-counter (depending on your set up) type either pythin or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs.  This confirms that the configuration is correct.
-
+c) Finally, the code that controls the grape counting process needs to be located and launched.  This python code is located within scripts.  From a new tab, type (or copy/paste) cd catkin_ws/src/robprog/grape_counter/scripts/. To run the grape-counter (depending on your set up) type either pythin or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs.  This confirms that the configuration is correct and that the grape counter is running.
 
 
 
 
 
 
-
-
-
-Use http://localhost:6081/ for the code editor
-
-Launch LXTERMINAL from the virtual environment.
-
-Type roslaunch bacchus_gazebo vineyard_demo.launch
-
-More complex environment with different plant stages:
-
-roslaunch bacchus_gazebo vineyard_demo.launch world_name:=<WORLD>
-with <WORLD> being one of the following:
-
-vineyard_small
-  
-vineyard_small_s0_coarse
-  
-vineyard_small_s1_coarse
-vineyard_small_s2_coarse
-vineyard_small_s3_coarse
-vineyard_small_s4_coarse
-vineyard_stage0
-vineyard_stage0_heightmap
-vineyard_stage0_small
-vineyard_stage1
-vineyard_stage2
-vineyard_stage3
-vineyard_stage4
-vineyard_stage4_small
-
-# Setting up a catkin package
-  
-Navigate to your folder that will contain your package...
-(in my case this is called cmp9767_ws (for workspace)
-
-Type:
-$ source /opt/ros/noetic/setup.bash
-  
-$ mkdir -p ~/catkin_ws/src
-  
-$ cd ~/catkin_ws/
-  
-$ catkin_make
-  
-Now use (in this example) http://localhost:6081/?folder=/home/ubuntu/cmp9767_ws to develop the packages in a way that they can be exported correctly.
- 
-Now - you need to overlay your workspace on top of the environment so navigate to 'devel' folder and type 
-  "source setup.sh" and check that the $ROS_PACKAGE_PATH includes the directory you are in.
-  
-  
