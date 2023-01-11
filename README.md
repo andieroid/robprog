@@ -25,7 +25,9 @@ this will launch the word and an RVIZ environment that provides an interface bet
 b) To start the required RVIZ configuration, *in a new tab* type: roslaunch uol_cmp9767m_tutorial topo_nav.launch.  Once this is running, you need to open the *modified* .rviz config file that contains a map; this is called topo_nav.rviz, found in /CMP9767M/uol_cmp9767m_tutorial/config/topo_nav.rviz.  
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/selecting-the-modified-config-file.png">
-This modified config provides the robot with a map that allows it to navigate around the vine.
+This modified config provides the robot with a map that allows it to navigate around the vine.  thius is what you should see now:
+
+<img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/rviz-launched.png">
 
 c) Finally, the code that controls the grape counting process needs to be located and launched.  This python code is located within scripts.  From a new tab, type (or copy/paste) cd catkin_ws/src/robprog/grape_counter/scripts/. To run the grape-counter (depending on your set up) type either python or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs (see image below).  This confirms that the configuration is correct and that the grape counter is running.
 
