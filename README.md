@@ -4,6 +4,10 @@ This repository contains a ROS-based simulated grape-counting robot system that 
 
 The robot is based on a real physical robot design in active use at the University of Lincoln, equipped with a range of sensors and four independently steerable wheels.  The simulated robot accurately reflects many of the real world elements, such as obstacle detection using lidar, kinect camera views on three sides (not back) and the environment in this example contains a fairly accurate representation of a planeted vine - with other more complex environments available to test the robot's abilities.
 
+To successfully run the system, test it and see it working, ideally you need to clone the full robprog repository as this contains not only the scripts but also dependencies such as worlds, rviz visualiser, maps and software tools that were used to reach the end stage of development.
+
+The environment calls on files found within the CMP9767M repository
+
 
 
 
