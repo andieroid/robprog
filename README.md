@@ -49,7 +49,7 @@ To see the counting process, once you have clicked the final waypoint, you need 
 
 The counting algorithm is intended to work as follows:
 
-STEP 1: START AT FIRST WAYPOINT
+`STEP 1: START AT FIRST WAYPOINT
 Count all the grapes in view
     STEP 2: MONITOR LEFT MARGIN OF KINECT FRAME
     > If not at final waypoint
@@ -68,7 +68,7 @@ Count all the grapes in view
     > Else
     Sum batches of grapes
     Apply error/conversion factor based on real world data for grape bunch numbers. 
-
+`
 
 
 
