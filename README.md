@@ -55,11 +55,11 @@ The counting algorithm is intended to work as follows:
     Count all the grapes in view
     STEP 2: MONITOR LEFT MARGIN OF KINECT FRAME 
     > If not at final waypoint
-        Set **Unique ID** list to null    
-        Record values for [surface area] and [height above ground] of blobs (grapes) in left margin (< 10 pix)
-        Combine both values to make a unique identifier (KEY) and store in a **Unique ID** list
+        Set Unique ID list to null    
+        Record values for [surface area] and [height above ground] of blobs (grapes) in left margin
+        Combine both values to make a unique identifier (KEY) and store in a Unique ID list
             STOP MONITORING LEFT MARGIN 
-    STEP 3: START MONITORING RIGHT MARGIN (>900px)
+    STEP 3: START MONITORING RIGHT MARGIN
         Measure values for [surface area] and [height above ground] of any blobs in margin
         Compare with previously stored values in list
     IF MATCH
