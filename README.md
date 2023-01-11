@@ -25,7 +25,7 @@ this will launch the word and an RVIZ environment that provides an interface bet
 b) To start the required RVIZ configuration, *in a new tab* type: roslaunch uol_cmp9767m_tutorial topo_nav.launch.  Once this is running, you need to open the *modified* .rviz config file that contains a map; this is called topo_nav.rviz, found in /CMP9767M/uol_cmp9767m_tutorial/config/topo_nav.rviz.  
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/selecting-the-modified-config-file.png">
-This modified config provides the robot with a map that allows it to navigate around the vine.  thius is what you should see now:
+This modified config provides the robot with a map that allows it to navigate around the vine; this is what you should see now:
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/rviz-launched.png">
 
@@ -33,9 +33,11 @@ c) Finally, the code that controls the grape counting process needs to be locate
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/black-screen-with-white-blobs.png">
 
-Return to the topo_nav RVIZ environment where you will see the robot on the grid now has a map overlaid with arrows (see image below):
+Return to the topo_nav RVIZ environment where you will see the robot on the grid with the map overlaid with arrows.
 
 The first step in grape counting is to position the robot at the nearest waypoint (shown as green arrows) around the grape vine.  If your robot happened to be at the top end of the image, you can click the nearest waypoint, however by default, the robot appears at the bottom of the screen, so click the waypoint as shown in the image below; the robot should move into position, ready to start counting.
+
+<img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/robot-at-start-position.png">
 
 The robot is programmed to follow the map layout, which has a one way system, so if you click the bottom right waypoint (the final destination - see image below) it should move up the left side of the vine, move across at the top and come back down the other side, counting the grapes as it goes. 
 
