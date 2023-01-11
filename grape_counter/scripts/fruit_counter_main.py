@@ -13,6 +13,8 @@ from numpy import mean
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
+# TEST of GITHUB
+
 class image_converter:
 
     def __init__(self):
