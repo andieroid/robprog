@@ -69,8 +69,18 @@ class image_projection:
         image_mask = cv2.inRange(image_color, (0, 0, 80), (20, 20, 255))
 
         # calculate moments of the binary image
-        M = cv2.moments(image_mask)
 
+        # cnt = contour
+        # M= cv2.moments(cnt[i])
+        M = cv2.moments(image_mask)
+        #in this line we are getting the position of blob/ grape bunch/ any object
+
+
+
+        #to DO- to get the position of all the grapes mask
+        #print M
+        # feed one after other
+        #  
         if M["m00"] == 0:
             print('No object detected.')
             return
