@@ -59,11 +59,11 @@ The counting algorithm is intended to work as follows:
     STEP 2: MONITOR LEFT MARGIN OF KINECT FRAME 
     > If not at final waypoint
         Set Unique ID list to null    
-        Record values for [surface area] and [height above ground] of blobs (grapes) in left margin
+        Record values for [surface area] and [y value] of blobs (i.e. grapes) in left margin
         Combine both values to make a unique identifier (KEY) and store in a Unique ID list
             STOP MONITORING LEFT MARGIN 
     STEP 3: START MONITORING RIGHT MARGIN
-        Measure values for [surface area] and [height above ground] of any blobs in margin
+        Measure values for [surface area] and [y value] of any blobs in margin
         Compare with previously stored values in list
     IF MATCH
         Count all grapes in view and assign to batch
@@ -74,10 +74,6 @@ The counting algorithm is intended to work as follows:
     Sum batches of grapes
     Apply error/conversion factor based on real world data for grape bunch numbers. 
 ```
-
-
-
-
 
 At the end of the process, the result will be displayed in the terminal tab that was used to launch the grape counter.  Re-open this tab to see how many grapes the robot counted.
 

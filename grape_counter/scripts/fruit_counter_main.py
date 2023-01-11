@@ -189,7 +189,7 @@ class image_converter:
                 if x1<20:
                     # draw a green contour around key blob    
                     img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
-                    # identify key blob on image, print height from bottom of the image
+                    # identify key blob on image, print distance from top of the image
                     cv2.putText(img1, f'KEY:{y1}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
                     # increment batch (will become 1 at start of counting)
                     batch +=1 # equivalent to a kinect camera frame width of 940px
@@ -208,7 +208,7 @@ class image_converter:
                 if x1>900:
                     # draw a red contour around key blob    
                     img1 = cv2.drawContours(img, [cnt], -1, (0,100,255), 1)
-                    # identify blobs in right hand zone of image, print height from bottom of the image
+                    # identify blobs in right hand zone of image, print distance from top of the image
                     cv2.putText(img1, f'{y1}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 100, 255), 1)
                     # COMPARE IF ANY BLOBS APPEARING ON RHS OF IMAGE (940+ pixels) MATCH TRACKER DICTIONARY
 
