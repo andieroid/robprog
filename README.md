@@ -23,9 +23,8 @@ This will launch the word and an RVIZ environment that provides an interface bet
 
 b) To start the required RVIZ configuration, *in a new tab* type: `roslaunch uol_cmp9767m_tutorial topo_nav.launch`.  Once this is running, you need to open the *modified* .rviz config file that contains a map; this is called topo_nav.rviz, found in `/CMP9767M/uol_cmp9767m_tutorial/config/topo_nav.rviz`.  
 
-```htm
-IMPORTANT: the default topo_nav.rviz file does not contain the correct map, so the modified one has to be used.  If it is not locatable, it can be downloaded from here:
-```
+> **IMPORTANT: the default topo_nav.rviz file does not contain the correct map, so the modified one has to be used.  If it is not locatable, it can be downloaded from here: `https://github.com/andieroid/robprog/blob/main/grape_counter/configs/topo_nav.rviz` after which you will need to locate it from within RVIZ to install the map.
+**
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/selecting-the-modified-config-file.png">
 This modified config provides the robot with a map that allows it to navigate around the vine; this is what you should see now:
