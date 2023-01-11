@@ -191,7 +191,7 @@ class image_converter:
                     # if this is the first batch, count the grapes in view without tracking
                     # increment batch (will become 1 at start of counting)
                     batch +=1
-                    if batch=1:
+                    if batch==1:
                         keyblobtracker[batch] = [cv2.contourArea(cnt),y1,len(contours)]
                         print("FIRST COUNT:",keyblobtracker) 
                     # TEST IF TRACKER BLOB APPEARS ON RHS OF IMAGE
