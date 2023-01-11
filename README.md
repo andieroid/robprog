@@ -49,8 +49,3 @@ To see the counting process, once you have clicked the final waypoint, you need 
 At the end of the process, the result will be displayed in the terminal tab that was used to launch the grape counter.  Re-open this tab to see how many grapes the robot counted.
 
 
-
-
-
-
-
