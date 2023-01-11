@@ -6,7 +6,12 @@ The robot is based on a real physical robot design in active use at the Universi
 
 To successfully run the system, test it and see it working, ideally you need to clone the full robprog repository as this contains not only the scripts but also dependencies such as worlds, rviz visualiser, maps and software tools that were used to reach the end stage of development.
 
-The environment calls on files found within the CMP9767M repository
+The environment calls on files found within the CMP9767M repository which you can set up most easily using the Docker Virtual Desktop and pulling the necessary files from the UoL archive.
+
+Install Docker using this resource: https://docs.docker.com/desktop/ and when running, follow the instructions on the resource here: https://github.com/LCAS/CMP9767M/wiki/using-the-module-resources-in-docker.  This will provide the correct environment with all the secondary associated CMP9767M files referenced by the simulation described on this page.  You still need to clone the robprog repository to install the specific simulation files for this 
+
+
+
 
 
 
