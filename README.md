@@ -47,7 +47,7 @@ The robot is programmed to follow the map layout, which has a one way system, so
 
 To see the counting process, once you have clicked the final waypoint, you need to click the tab at the bottom to open the "Grape Bunch Counter" window. The white blobs represent the grapes that the robot is seeing.  There should be one or more red-bounded shapes with green writing.  These represent the grapes that will be tracked until they reach the right-hand side of the screen, so that the robot knows when a "batch" can be counted.
 
-You should observe blobs passing from the left of the video image to the right.  In the left margin, you should see blobs with a green border and text information showing their height above the ground.  In the right margin, as blobs pass into it - you should see blobs with red borders (see image below)
+You should observe blobs passing from the left of the video image to the right.  In the left margin, you should see blobs with a green border and text information showing their y value (which it is assumed will not change as they cross the screen).  In the right margin, as blobs pass into it - you should see blobs with red borders (see image below)
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/start-and-end-of-tracking.png">
 
