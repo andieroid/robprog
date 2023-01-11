@@ -41,7 +41,7 @@ The first step in grape counting is to position the robot at the nearest waypoin
 
 The robot is programmed to follow the map layout, which has a one way system, so if you click the bottom right waypoint (the final destination - see image below) it should move up the left side of the vine, move across at the top and come back down the other side, counting the grapes as it goes. 
 
-<img src=">
+<img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/start_counting.png">
 
 To see the counting process, once you have clicked the final waypoint, you need to click the tab at the bottom to open the "Grape Bunch Counter" window. The white blobs represent the grapes that the robot is seeing.  There should be one or more red-bounded shapes with green writing.  These represent the grapes that will be tracked untl they reach the right-hand side of the screen, so that the robot knows when a "batch" can be counted.
 
