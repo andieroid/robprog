@@ -14,7 +14,7 @@ Once robprog and CMP9767M directories are in place, if you are running a correct
 
 Type http://localhost:6080/ in a web-browser and launch a terminal.  You will eventually need three separate terminal tabs to launch the necessary a) ROS vineyard "word" b) rviz visualiser/map and c) Python grape-counting components.  
 
-<img src="andieroid/robprog/grape_counter/scripts/images/launching-vineyard-world.png">
+<img src="andieroid/robprog/blob/main/grape_counter/scripts/images/launching-vineyard-world.png">
 
 a) So, starting with the vineyard (without gazebo to improve performance), type into a shell tab (or copy/paste): roslaunch bacchus_gazebo vineyard_demo.launch world_name:=vineyard_small gui:=false this will launch the word and an RVIZ environment that provides an interface between the ROS system and the simulated ROS environment.  You should see a 3D representation of the robot on a grid with a line of grapes (glowing red due to the lidar of the robot) - see the image below.
 
