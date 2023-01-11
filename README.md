@@ -14,6 +14,8 @@ Once robprog and CMP9767M directories are in place, if you are running a correct
 
 Type http://localhost:6080/ in a web-browser and launch a terminal.  You will eventually need three separate terminal tabs to launch the necessary a) ROS vineyard "word" b) rviz visualiser/map and c) Python grape-counting components.  
 
+![](https://vscode-remote%2Blocalhost-003a6081.vscode-resource.vscode-cdn.net/home/ubuntu/catkin_ws/src/robprog/grape_counter/scripts/images/launching-vineyard-world.png?version%3D1673453779726)
+
 a) So, starting with the vineyard (without gazebo to improve performance), type into a shell tab (or copy/paste): roslaunch bacchus_gazebo vineyard_demo.launch world_name:=vineyard_small gui:=false this will launch the word and an RVIZ environment that provides an interface between the ROS system and the simulated ROS environment.  You should see a 3D representation of the robot on a grid with a line of grapes (glowing red due to the lidar of the robot) - see the image below.
 
 b) To start the required RVIZ configuration, *in a new tab* type: roslaunch uol_cmp9767m_tutorial topo_nav.launch.  Once this is running, you need to open the *modified* .rviz config file that contains a map; this is called topo_nav.rviz, found in /CMP9767M/uol_cmp9767m_tutorial/config/topo_nav.rviz.  This modified config provides the robot with a map that allows it to navigate around the vine.
