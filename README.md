@@ -51,7 +51,7 @@ The counting algorithm is intended to work as follows:
 
 
 ```htm
-    `STEP 1: START AT FIRST WAYPOINT
+    STEP 1: START AT FIRST WAYPOINT
     Count all the grapes in view
     STEP 2: MONITOR LEFT MARGIN OF KINECT FRAME 
     > If not at final waypoint
@@ -71,7 +71,7 @@ The counting algorithm is intended to work as follows:
     Sum batches of grapes
     Apply error/conversion factor based on real world data for grape bunch numbers. 
 ```
-`
+
 
 
 
