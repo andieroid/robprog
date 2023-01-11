@@ -8,7 +8,18 @@ To successfully run the system, test it and see it working, ideally you need to 
 
 The environment calls on files found within the CMP9767M repository which you can set up most easily using the Docker Virtual Desktop and pulling the necessary files from the UoL archive.
 
-Install Docker using this resource: https://docs.docker.com/desktop/ and when running, follow the instructions on the resource here: https://github.com/LCAS/CMP9767M/wiki/using-the-module-resources-in-docker.  This will provide the correct environment with all the secondary associated CMP9767M files referenced by the simulation described on this page.  You still need to clone the robprog repository to install the specific simulation files for this 
+Install Docker using this resource: https://docs.docker.com/desktop/ and when running, follow the instructions on the resource here: https://github.com/LCAS/CMP9767M/wiki/using-the-module-resources-in-docker.  This will provide the correct environment with all the secondary associated CMP9767M files referenced by the simulation described on this page.  You still need to clone the robprog (this) repository to install the specific simulation files for this particular roboit grape counter.
+
+Once robprog and CMP9767M directories are in place, if you are running a correctly-configured Docker image, then you can start the simulation as follows:
+
+Type http://localhost:6080/ in a web- and launch a terminal.  You will need three separate tabs to launch the necessary a) ROS vineyard "word" b) rviz visualiser/map and c) Python grape-counting components.  
+
+a) So, starting with the vineyard (without gazebo to improve performance), type into a shell tab (or copy/paste): roslaunch bacchus_gazebo vineyard_demo.launch world_name:=vineyard_small gui:=false
+
+b) To start the RVIZ component, that provides an interface between the ROS system and the simulated ROS environment, *in a new tab* type: roslaunch uol_cmp9767m_tutorial topo_nav.launch
+Once this is running (with a 3D representation of the robot on a grid with a line of grapes (glowing red due to the lidar of the robot), open the config file named topo_nav.rviz.  This modified config provides the robot with a map that allows it to navigate around the vine.
+
+c) Finally, the code that controls the grape counting element needs to be located and launched.  This python code is located within scripts.  From a new tab, type (or copy/paste) cd catkin_ws/src/robprog/grape_counter/scripts/. To run the grape-counter (depending on your set up) type either pythin or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs.  This confirms that the configuration is correct.
 
 
 
@@ -18,14 +29,6 @@ Install Docker using this resource: https://docs.docker.com/desktop/ and when ru
 
 
 
-Need to start the ROS environment using Docker...
-
-Navigate to the robprog directory (on the Mac interface) type: docker-compose up
-
-REMEMBER: at the end of the session, CTRL-C thentype docker-control down to ensure it is not still running in the background.
-
-
-Type http://localhost:6080/ in a web-browser
 
 Use http://localhost:6081/ for the code editor
 
