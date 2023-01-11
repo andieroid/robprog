@@ -167,7 +167,7 @@ class image_converter:
             # WHEN ID IN RIGHT HAND COLUMN MATCHES IDS FROM LEFT THEN A FULL SCREEN IMAGE HAS BEEN ACHIEVED
             # NOW COUNT ALL BLOBS AND CREATE NEW UNIQUE IDS FOR LEFT-HAND BLOBS
             
-            # Creating an empty dictionary (y-co-ordinate, area, count)
+            # Creating an empty dictionary containing lists of [y-co-ordinate, area, count]
             keyblobtracker = {}
             # Adding list as value
             keyblobtracker['batch'] = [0,0,0]   # blob_area, blob_height_from_bottom, grape-count
@@ -183,21 +183,34 @@ class image_converter:
                 # c_coordinates = (cx, cy)
                 print('Area of grape blob', cv2.contourArea(cnt), '(X,Y COORDINATES: (',x1,',',y1,')')
                 # ASSIGN KEY BLOB
-                # if blob appears in the left 20 pixels of the image
+                ################################################################
+                # For ALL blobs appearing in the left 20 pixels of the image
+                ################################################################
                 if x1<20:
-                    # draw a red contour around key blob    
-                    img1 = cv2.drawContours(img, [cnt], -1, (0,100,255), 1)
+                    # draw a green contour around key blob    
+                    img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
                     # identify key blob on image, print height from bottom of the image
                     cv2.putText(img1, f'KEY:{y1}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-                    # if this is the first batch, count the grapes in view without tracking
                     # increment batch (will become 1 at start of counting)
-                    batch +=1
+                    batch +=1 # equivalent to a kinect camera frame width of 940px
+                    # Don't start tracking grapes until until after the first batch has been counted or 
+                    # grapes will be lost from first batch
                     if batch==1:
                         keyblobtracker[batch] = [cv2.contourArea(cnt),y1,len(contours)]
-                        print("FIRST COUNT:",keyblobtracker) 
-                    # TEST IF TRACKER BLOB APPEARS ON RHS OF IMAGE
-                               
-
+                        print("FIRST COUNT:",keyblobtracker[1]) 
+                    # otherwise start tracking.  
+                ################################################################
+                # for ANY blobs appearing within 20 pixels of right edge of image
+                ################################################################
+                    # If any blobs on RHS of image match contour AND y1 AND area 
+                    # in keyblobtracker then the robot has (probably) moved forward by one complete kinect 
+                    # image frame, so count grapes
+                if x1>900:
+                    # draw a red contour around key blob    
+                    img1 = cv2.drawContours(img, [cnt], -1, (0,100,255), 1)
+                    # identify blobs in right hand zone of image, print height from bottom of the image
+                    cv2.putText(img1, f'{y1}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 100, 255), 1)
+                    # COMPARE IF ANY BLOBS APPEARING ON RHS OF IMAGE (940+ pixels) MATCH TRACKER DICTIONARY
 
         cv2.imshow("Grape Bunch Count", img)
         cv2.waitKey(1)

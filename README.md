@@ -47,6 +47,32 @@ The robot is programmed to follow the map layout, which has a one way system, so
 
 To see the counting process, once you have clicked the final waypoint, you need to click the tab at the bottom to open the "Grape Bunch Counter" window. The white blobs represent the grapes that the robot is seeing.  There should be one or more red-bounded shapes with green writing.  These represent the grapes that will be tracked until they reach the right-hand side of the screen, so that the robot knows when a "batch" can be counted.
 
+The counting algorithm is intended to work as follows:
+
+STEP 1: START AT FIRST WAYPOINT
+Count all the grapes in view
+    STEP 2: MONITOR LEFT MARGIN OF KINECT FRAME
+    > If not at final waypoint
+        Set **Unique ID** list to null    
+        Record values for [surface area] and [height above ground] of blobs (grapes) in left margin (< 10 pix)
+        Combine both values to make a unique identifier (KEY) and store in a **Unique ID** list
+            STOP MONITORING LEFT MARGIN 
+    STEP 3: START MONITORING RIGHT MARGIN (>900px)
+        Measure values for [surface area] and [height above ground] of any blobs in margin
+        Compare with previously stored values in list
+    IF MATCH
+        Count all grapes in view and assign to batch
+        batch = batch + 1
+            STOP MONITORING RIGHT MARGIN
+            RETURN TO STEP 2
+    > Else
+    Sum batches of grapes
+    Apply error/conversion factor based on real world data for grape bunch numbers. 
+
+
+
+
+
 At the end of the process, the result will be displayed in the terminal tab that was used to launch the grape counter.  Re-open this tab to see how many grapes the robot counted.
 
 
