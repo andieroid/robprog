@@ -49,9 +49,9 @@ To see the counting process, once you have clicked the final waypoint, you need 
 
 You should observe blobs passing from the left of the video image to the right.  In the left margin, you should see blobs with a green border and text information showing their height above the ground.  In the right margin, as blobs pass into it - you should see blobs with red borders (see image below)
 
+<img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/start-and-end-of-tracking.png">
 
 The counting algorithm is intended to work as follows:
-
 
 ```htm
     STEP 1: START AT FIRST WAYPOINT
