@@ -1,4 +1,7 @@
-# robotic-programming
+# Robot Programming
+
+This repository contains a ROS-based simulated grape-counting robot system that traverses each side of a grape vine to count bunches of grapes.
+
 
 After updating!!! Yay
 
