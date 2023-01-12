@@ -13,7 +13,7 @@ To successfully run the system, test it and see it working, ideally you need to 
 
 The environment calls on files found within the CMP9767M repository which you can set up most easily using the Docker Virtual Desktop and pulling the necessary files from the UoL archive.
 
-Install Docker using this resource: https://docs.docker.com/desktop/ and when running, follow the instructions on the resource here: https://github.com/LCAS/CMP9767M/wiki/using-the-module-resources-in-docker.  This will provide the correct environment with all the secondary associated CMP9767M files referenced by the simulation described on this page.  You still need to clone the robprog (this) repository to install the specific simulation files for this particular roboit grape counter.
+Install Docker using this resource: https://docs.docker.com/desktop/ and when running, follow the instructions on the resource here: https://github.com/LCAS/CMP9767M/wiki/using-the-module-resources-in-docker.  This will provide the correct environment with all the secondary associated CMP9767M files referenced by the simulation described on this page.  You still need to clone the robprog (this) repository to install the specific simulation files for this particular robot grape counter.
 
 Once robprog and CMP9767M directories are in place, if you are running a correctly-configured Docker image, then you can start the simulation as follows:
 
@@ -36,7 +36,7 @@ This modified config provides the robot with a map that allows it to navigate ar
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/rviz-launched.png">
 
-c) Finally, the code that controls the grape counting process needs to be located and launched.  This python code is located within scripts.  From a new tab, type (or copy/paste) cd `catkin_ws/src/robprog/grape_counter/scripts/`. To run the grape-counter (depending on your set up) type either python or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs (see image below).  This confirms that the configuration is correct and that the grape counter is running.
+c) Finally, the code that controls the grape counting process needs to be located and launched.  This python code is located within the `scripts` folder.  From a new tab, type (or copy/paste) cd `catkin_ws/src/robprog/grape_counter/scripts/`. To run the grape-counter (depending on your set up) type either python or python3 fruit_counter_main.py. This will launch a window that shows a black screen with some white blobs (see image below).  This confirms that the configuration is correct and that the grape counter is running.
 
 <img src="https://github.com/andieroid/robprog/blob/main/grape_counter/scripts/images/black-screen-with-white-blobs.png">
 
