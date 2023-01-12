@@ -3,6 +3,7 @@
 import rospy
 import cv2
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 from cv2 import namedWindow, cvtColor, imshow, inRange
 from cv2 import destroyAllWindows, startWindowThread
@@ -13,7 +14,11 @@ from numpy import mean
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
-# TEST of GITHUB
+# THIS PROGRAM IS BASED AROUND AND RELIES ON A RANGE OF MODIFIED PROGRAMS AND CONFIG FILES
+# PROVIDED IN THE UoL MODULE EXAMPLES.  THESE ARE:
+# OPENCV_TEST.PY
+# TOPO_NAV.LAUNCH
+# TEST.MAP2
 
 class image_converter:
 
@@ -23,8 +28,6 @@ class image_converter:
         # self.image_sub = rospy.Subscriber("/thorvald_001/kinect2_right_camera/hd/image_color_rect",
         #                                   Image, self.image_callback)
         self.image_sub = rospy.Subscriber("/thorvald_001/kinect2_right_camera/hd/image_color_rect", Image, self.image_callback)
-
-
 
     def image_callback(self, data):
         namedWindow("Raw Image")
@@ -140,71 +143,79 @@ class image_converter:
         #     cv2.waitKey(0)
 
         ############################################################################
-
-
-        ############################################################################
         # IDENTIFY AND COUNT INDIVIDUAL CONTOURS
         # https://www.tutorialspoint.com/how-to-compute-image-moments-in-opencv-python        
         ############################################################################
 
         # Need to convert closing mask from gray to 3 channel image for this code to function
-
         bw_grape_image = cv2.cvtColor(closing_mask, cv2.COLOR_GRAY2BGR)
-        # closing_mask_gray = cv2.cvtColor(bw_grape_image, cv2.COLOR_BGR2GRAY)
         img = bw_grape_image
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ret,thresh = cv2.threshold(gray,170,255,0)
         contours,hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-        print("Number of Contours detected:",len(contours))
+        batch = 0
+
+        # declare how many contours (bunches) can be detected 
+        # print("Number of Contours detected:",len(contours))
+        # consider each contour (blob) in the visible image
         for i, cnt in enumerate(contours):
-            M = cv2.moments(cnt)
-            # print(f"Moments of Contour {i+1}:\n", M). # USED FOR TESTING KEYS AGAINST CONTOUR DATA
-            # EXTRACT CONTOUR DATA FROM GRAPES ON FAR LHS 
-            # CONTOURS ON FAR LEFT OF IMAGE
-            # FIND (HOPEFULLY) UNIQUE ELEMENTS OF BLOBS - INCLUDING THEIR y CO-ORDINATE, WHICH IT IS ASSUMED WILL NOT CHANGE IN THE 
-            # SIMULATED WORLD.
-            # CREATE A UNIQUE ID FOR ALL LEFT-HAND BLOBS FROM CONTOURS DATA
-            # WHEN ID IN RIGHT HAND COLUMN MATCHES IDS FROM LEFT THEN A FULL SCREEN IMAGE HAS BEEN ACHIEVED
-            # NOW COUNT ALL BLOBS AND CREATE NEW UNIQUE IDS FOR LEFT-HAND BLOBS
-            
-            # Creating an empty dictionary containing lists of [y-co-ordinate, area, count]
-            keyblobtracker = {}
-            # Adding list as value
-            keyblobtracker['batch'] = [0,0,0]   # blob_area, blob_height_from_bottom, grape-count
-            # set batch number to zero before counting starts
-            batch = 0
-            # print to confirm tracker is reset
-            # print(keyblobtracker)            
+            # M = cv2.moments(cnt)
+            # Creating and initialise a list to contain lists of [area, y-co-ordinate] - i.e. unique IDs
+            keyblobtracker = []
+            # create and initialise list to record blob count of individual batches (to allow audit against real values on completion)
+            grapecounter = [] 
+            keyblobtracker = []   # start with list values at zero for blob_area, blob_height_from_top          
             x1, y1 = cnt[0,0]
-            # get centre-x and centre-y positions
-            if M['m00']>0:   # to prevent division by zero
-                cx = int(M['m10']/M['m00'])
-                cy = int(M['m01']/M['m00'])
-                # c_coordinates = (cx, cy)
-                print('Area of grape blob', cv2.contourArea(cnt), '(X,Y COORDINATES: (',x1,',',y1,')')
-                # ASSIGN KEY BLOB
-                ################################################################
-                # For ALL blobs appearing in the left 20 pixels of the image
-                ################################################################
-                if x1<20:
-                    # draw a green contour around key blob    
-                    img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
-                    # identify key blob on image, print distance from top of the image
-                    cv2.putText(img1, f'KEY:{y1}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-                    # increment batch (will become 1 at start of counting)
-                    batch +=1 # equivalent to a kinect camera frame width of 940px
-                    # Don't start tracking grapes until until after the first batch has been counted or 
-                    # grapes will be lost from first batch
-                    if batch==1:
-                        keyblobtracker[batch] = [cv2.contourArea(cnt),y1,len(contours)]
-                        print("FIRST COUNT:",keyblobtracker[1]) 
-                    # otherwise start tracking.  
+            #[comments A came from here]
+            # provide visual confirmation of blob areas
+            print('Area of grape blob=', cv2.contourArea(cnt), 'Y COORDINATE=',y1,')')
+            ################################################################
+            # For ALL blobs appearing in the left 20 pixels of the image
+            ################################################################
+
+            if x1<20:
+                # print to confirm tracker is reset
+                # print('Key Blob Tracker List:',keyblobtracker)  
+                # draw a green contour around key blob    
+                img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
+                # Print distance from top of the image next to blob
+                cv2.putText(img1, f'{y1}:KEY', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                # increment batch (will become 1 at start of counting)
+                batch +=1 # equivalent to a kinect camera frame width of 940px
+                # Don't start tracking grapes until until after the first batch has been counted or 
+                # grapes will be lost from first batch
+                if batch==1: # don't track blobs
+                    # keyblobtracker[batch] = [cv2.contourArea(cnt),y1]
+                    # print("FIRST COUNT:",keyblobtracker[1])
+                    cv2.putText(img1, f'{y1}:BATCH{batch}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                    batch_count = len(contours)
+                    grapecounter.append([batch_count])
+                    print('FIRST BATCH COUNT:', grapecounter)
+                    batch+=1
+                if batch>1: #start tracking blobs
+                    cv2.putText(img1, f'{y1}:BATCH{batch}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                    # add unique identifier of tracked blob to blob-tracker list
+                    keyblobtracker.append([batch, cv2.contourArea(cnt), y1])
+                    print('KEY BLOB TRACKER CONTAINS:', keyblobtracker)
+                    # tracker ID loaded
+                    #robot moving forward (x1 increasing)
+                    # as the robot advances, changes are likely to occur in lighting etc that will change the area and y values for 
+                    # the blobs.  The use of the maths function "isclose" is used to try and match within 5% of the stored and live values. 
+                
+                if x1 >= 20:
+                    print('Stored:', keyblobtracker[0][1],keyblobtracker[0][2],'Live: ',cv2.contourArea(cnt), y1)
+                    if math.isclose(keyblobtracker[0][1], cv2.contourArea(cnt), rel_tol=0.10, abs_tol=0.0) or math.isclose(keyblobtracker[0][2], y1, rel_tol=0.10, abs_tol=0.0):
+                        print('Stored:', keyblobtracker[0][1],keyblobtracker[0][2],'Live: ',cv2.contourArea(cnt), y1)
+                        img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
+                        cv2.putText(img1, f'{y1}:<=TRACKING', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
                 ################################################################
                 # for ANY blobs appearing within 20 pixels of right edge of image
                 ################################################################
                     # If any blobs on RHS of image match contour AND y1 AND area 
                     # in keyblobtracker then the robot has (probably) moved forward by one complete kinect 
                     # image frame, so count grapes
+
                 if x1>900:
                     # draw a red contour around key blob    
                     img1 = cv2.drawContours(img, [cnt], -1, (0,100,255), 1)
@@ -216,36 +227,6 @@ class image_converter:
         cv2.waitKey(1)
         # cv2.destroyAllWindows()
 
-        ############################################################################
-        # THIS SECTION IS THE ALGORITHM THAT ATTEMPTS TO TRACK INDIVIDUAL BUNCHES
-        # 
-        # ADD BUNCHES TO LIST WITH X, Y & Z INFORMATION - COUNTING ALGORITHM    
-        ############################################################################
-        # WHAT WILL BE ATTEMPTED IS TO CREATE A KEY BASED ON THE APPROXIMATION OF THE 
-        # CONTOUR VALUES.
-        # BY STORING THE VALUES OF SELECTED CONTOURS ON THE LHS AND ASSIGNING A KEY 
-        # THIS WILL BE COMPARED WITH CONTOURS APPEARING ON THE RHS AND USING THE 
-        # math.isclose(a, b, *, rel_tol=1e-09, abs_tol=0.0) FUNCTION TO SEE IF THE CONTOURS
-        # MATCH.  IF THEY DO, THEN THE GRAPE BUNCH WILL HAVE TRAVELED THE FULL DISTANCE 
-        # ACROSS THE IMAGE - AT WHICH POINT A GRAPE BUNCH COUNT WILL TAKE PLACE
-        #  
-        #  KEY = IMAGE = 0
-        # IF ROBOT IS READY TO ADVANCE TO WAYPOINT 2 OR WAYPOINT 4
-        # WRITE KEY BLOB TO X = 0 ON IMAGE
-        # WAIT WHILE ROBOT ADVANCES
-        # IF KEY BLOB DETECTED ON RHS OF IMAGE (X = 940)
-            # ADD CONTOUR COUNT TO DICTIONARY {IMAGE[X],[COUNT[KEY]}
-            # KEY = KEY + 1
-            # X = X + 1
-        # WRITE IMAGE BLOB[KEY] 
-
-        # RESTART COUNTING WHEN ROBOT REACHES WAYPOINT 4 AND COMPLETED ORIENTATION TOWARDS WAYPOINT 5 [END]
-        # APPLY ADJUSTMENT FACTOR TO COMPENSATE FOR DOUBLE-COUNTING
-        # COMPENSATION FACTOR COULD BE: (MANUAL GRAPE COUNT - ROBOT GRAPE COUNT) * ROBOT GRAPE COUNT
-        # PRINT RESULT
-
-
-
 #startWindowThread()
 rospy.init_node('image_converter')
 ic = image_converter()
@@ -253,3 +234,51 @@ rospy.spin()
 
 destroyAllWindows()
 
+############################################################
+# ALTERNATIVE APPROACH USING TIME-BASED SAMPLING
+############################################################
+# THE ROBOT TAKES 30 SECONDS TO TRAVERSE THE VINE
+# IT ALSO TAKES 10 SECONDS TO FULLY REPLACE EACH OPTICAL FRAME WITH A NEW
+# SECTION OF VINE.  THIS CODE WOULD BE IMPLEMENTED TO START COUNTING
+# WHEN GRAPES ARE DETECTED FROM THE EXTREME LEFT TO EXTREME RIGHT
+# THEN EVERY 10 SECONDS, A NEW COUNT WOULD TAKE PLACE
+# COUNTING WOULD NOT OCCUR BETWEEN 30 SECONDS END POINT AND 
+# DETECTION OF NEW FULL FRAME OF GRAPES ON OTHER SIDE OF VINE
+
+# THE SAME ADJUSTMENT FACTOR WOULD BE APPLIED TO ACCOUNT FOR DOUBLE COUNTING
+
+        # print("waiting for vine to fill screen...")
+        # cv2.imshow("Grape Bunch Count", img)
+        # cv2.waitKey(1)
+        # grapecounter = [] 
+        # batch_schedule = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+        # totaltime = 0
+        # for i, cnt in enumerate(contours):
+        #     x1, y1 = cnt[0,0]
+        #     img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
+        #     cv2.putText(img1, f'{y1}', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+        #     if x1>900:
+        #         # start the timer
+        #         print("Counting started")
+        #         starttime = time.time()
+        #         lasttime = starttime
+        #         while totaltime <30:
+        #             print('Time elapsed:', totaltime)
+        #             for samplepoint in batch_schedule:  
+        #                 if totaltime == samplepoint:
+        #                     print("Sampling at ", sampletime, "seconds")             
+        #                     print("Counting batch",batch)
+        #                     batch_count = len(contours)
+        #                     grapecounter.append([batch_count])
+        #                     print('Batch count[batch]', batch_count)
+        #                     img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
+        #                     cv2.putText(img1, f'{y1}:COUNTED', (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+        #                     batch +=1
+        #                     totaltime = round((time.time() - starttime), 2)
+        #                     img1 = cv2.drawContours(img, [cnt], -1, (0,255,0), 1)
+        #                     cv2.imshow("Grape Bunch Count", img)
+        #                     cv2.waitKey(1)
+        #                     # Updating the previous total time and lap number
+        #                     lasttime = time.time()
+        #                     print("Total Time: "+str(totaltime))
+        #                     print("Grape count for Left of vine:",grapecounter)
